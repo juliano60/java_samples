@@ -1,8 +1,14 @@
 package com.spirent.project1;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+
+import org.junit.*;
+
 
 /**
  * Unit test for simple App.
@@ -10,6 +16,14 @@ import junit.framework.TestSuite;
 public class AppTest 
     extends TestCase
 {
+	private final ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+	
+	@Before
+	public void setUp()
+	{
+		System.setOut(new PrintStream(outStream));
+	}
+	
     /**
      * Create the test case
      *
@@ -28,11 +42,16 @@ public class AppTest
         return new TestSuite( AppTest.class );
     }
 
-    /**
-     * Rigourous Test :-)
-     */
     public void testApp()
     {
-        assertTrue( true );
+        App.main(new String[] {});
+        
+        Assert.assertEquals("Hello World!", outStream.toString());
+    }
+    
+    @After
+    public void cleanUp()
+    {
+    	System.setOut(null);
     }
 }
